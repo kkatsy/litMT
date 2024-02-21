@@ -1,0 +1,139 @@
+{
+    "os": "Linux-5.4.0-60-generic-x86_64-with-glibc2.27",
+    "python": "3.11.7",
+    "heartbeatAt": "2024-02-16T20:21:31.093693",
+    "startedAt": "2024-02-16T20:21:30.709607",
+    "docker": null,
+    "cuda": "10.0.130",
+    "args": [],
+    "state": "running",
+    "program": "<python with no main file>",
+    "codePathLocal": null,
+    "git": {
+        "remote": "https://github.com/kkatsy/litMT.git",
+        "commit": "e5b2af885ef05af32dcc81089bb06ca8dbc9c66b"
+    },
+    "email": "kkatsy@ucsd.edu",
+    "root": "/home/kkatsy/litMT",
+    "host": "savernake",
+    "username": "kkatsy",
+    "executable": "/home/kkatsy/anaconda3/bin/python",
+    "cpu_count": 8,
+    "cpu_count_logical": 16,
+    "cpu_freq": {
+        "current": 3.044875,
+        "min": 800.0,
+        "max": 5000.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2.965,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 3.254,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 2.905,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 3.207,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 2.933,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 3.207,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 2.875,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 2.853,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 3.61,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 3.176,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 3.164,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 2.634,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 3.23,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 2.895,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 2.924,
+            "min": 800.0,
+            "max": 5000.0
+        },
+        {
+            "current": 2.886,
+            "min": 800.0,
+            "max": 5000.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 915.3975067138672,
+            "used": 777.1563758850098
+        }
+    },
+    "gpu": "GeForce RTX 2080 Ti",
+    "gpu_count": 4,
+    "gpu_devices": [
+        {
+            "name": "GeForce RTX 2080 Ti",
+            "memory_total": 11554717696
+        },
+        {
+            "name": "GeForce RTX 2080 Ti",
+            "memory_total": 11554717696
+        },
+        {
+            "name": "GeForce RTX 2080 Ti",
+            "memory_total": 11554717696
+        },
+        {
+            "name": "GeForce RTX 2080 Ti",
+            "memory_total": 11554717696
+        }
+    ],
+    "memory": {
+        "total": 62.72289276123047
+    }
+}

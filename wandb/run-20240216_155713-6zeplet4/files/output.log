@@ -1,0 +1,27 @@
+cuda
+2.1.2
+Train
+PV 19086
+Garnett 19086
+Katz 5380
+McDuff 8386
+Hogarth 2752
+Total 54690
+Holdout
+PV 310
+Garnett 362
+Katz 310
+McDuff 52
+Hogarth 52
+Total 1086
+[0 3 4 2 1]
+[{'idx': 3, 'book': 'AnnaKarenina', 'labels': 4, 'sentence': 'All happy families are alike; each unhappy family is unhappy in its own way.'}, {'idx': 6, 'book': 'AnnaKarenina', 'labels': 4, 'sentence': '"Yes, yes, how did it go?\' he thought, recalling his dream. \'How did it go? Yes! Alabin was giving a dinner in Darmstadt-no, not in Darmstadt but something American. Yes, but this Darmstadt was in America. Yes, Alabin was giving a dinner on glass tables, yes - and the tables were singing II mio tesoro,1 only it wasn\'t II mio tesoro but something better, and there were some little carafes, which were also women,\' he recalled.'}, {'idx': 8, 'book': 'AnnaKarenina', 'labels': 4, 'sentence': '\'Oh, oh, oh! Ohh!.." he moaned, remembering all that had taken place. And in his imagination he again pictured all the details of his quarrel with his wife, all the hopelessness of his position and, most painful of all, his own guilt.'}, {'idx': 9, 'book': 'AnnaKarenina', 'labels': 4, 'sentence': "'No, she won't forgive me and can't forgive me! And the most terrible thing is that I'm the guilty one in it all - guilty, and yet not guilty. That's the whole drama, he thought. ' Oh, oh, oh!' he murmured with despair, recalling what were for him the most painful impressions of this quarrel."}, {'idx': 10, 'book': 'AnnaKarenina', 'labels': 4, 'sentence': 'Worst of all had been that first moment when, coming back from the theatre, cheerful and content, holding a huge pear for his wife, he had not found her in the drawing room; to his surprise, he had not found her in the study either, and had finally seen her in the bedroom with the unfortunate, all-revealing note in her hand.'}, {'idx': 11, 'book': 'AnnaKarenina', 'labels': 4, 'sentence': 'She - this eternally preoccupied and bustling and, as he thought, none-too-bright Dolly - was sitting motionless, the note in her hand, looking at him with an expression of horror, despair and wrath.'}, {'idx': 12, 'book': 'AnnaKarenina', 'labels': 4, 'sentence': "'What is this? this?' she asked, pointing to the note."}, {'idx': 13, 'book': 'AnnaKarenina', 'labels': 4, 'sentence': 'And, in recalling it, as often happens, Stepan Arkadyich was tormented not so much by the event itself as by the way he had responded to these words from his  wife.'}, {'idx': 15, 'book': 'AnnaKarenina', 'labels': 4, 'sentence': 'That stupid smile he could not forgive himself. Seeing that smile, Dolly had winced as if from physical pain, burst with her typical vehemence into a torrent of cruel words, and rushed from the room. Since then she had refused to see her husband.'}, {'idx': 16, 'book': 'AnnaKarenina', 'labels': 4, 'sentence': "'That stupid smile is to blame for it all) thought Stepan Arkadyich."}]
+train size:  30079
+test size:  1086
+{'label': 2, 'text': '"In blessing, you have blessed yourself; sit beside me. Where be you from?"'}
+[nltk_data] Downloading package punkt to /home/kkatsy/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+{4: 'PV', 0: 'Garnett', 2: 'Katz', 3: 'McDuff', 1: 'Hogarth'}
+{'PV': 4, 'Garnett': 0, 'Katz': 2, 'McDuff': 3, 'Hogarth': 1}
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at bert-base-multilingual-cased and are newly initialized: ['classifier.bias', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
