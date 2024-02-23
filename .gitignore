@@ -1,3 +1,4 @@
 aligned_paragraph_dataset.pickle
 source_paragraph_dataset.pickle
 wandb/
+logs/
