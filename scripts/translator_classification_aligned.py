@@ -3,19 +3,20 @@ import pandas as pd
 import numpy as np
 from transformers import AutoTokenizer, DataCollatorWithPadding, AutoModelForSequenceClassification, Trainer, TrainingArguments
 from sklearn.preprocessing import LabelEncoder
-from sklearn import metrics
+from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay, f1_score
 from torch.utils.data import DataLoader
 import wandb
 import warnings
 warnings.filterwarnings('ignore')
 import matplotlib.pyplot as plt
 
+
 ## CONFIGS
 GPU = "1"
 PROJ_PATH = '/home/kkatsy/litMT'
 EXP_NAME = 'aligned_src_tgt'
 TRAIN_SET = 'aligned_train_df.pickle'
-WANB_PROJ = 'translator-classification-aligned'
+WANDB_PROJ = 'translator-classification-exp'
 
 SAVE_PATH = PROJ_PATH + '/' + EXP_NAME
 OUT_PATH = PROJ_PATH + '/exp_logs/' + EXP_NAME
@@ -26,22 +27,23 @@ FINE_TUNE = True
 LOAD_TUNED = False
 
 lr = 2e-5
-epochs = 5
+epochs = 20
 batch_size = 8
 
 
+if not os.path.exists(OUT_PATH):
+    os.makedirs(OUT_PATH)
+    
 # GPU SETUP
-os.environ["CUDA_VISIBLE_DEVICES"] = GPU
-if torch.cuda.is_available():
-  dev = "cuda"
-else:
-  dev = "cpu"
-device = torch.device(dev)
+# os.environ["CUDA_VISIBLE_DEVICES"] = GPU
+device = 'cuda:2' if torch.cuda.is_available() else 'cpu'
+device = torch.device(device)
 
 
 # CLASS LABELS
 label_list = ["Garnett", "McDuff", "PV", "Katz", "Hogarth"]
 le = LabelEncoder()
+le.fit(label_list)
 id_list = le.transform(list(label_list))
 
 id2label, label2id = {}, {}
@@ -76,7 +78,7 @@ def preprocess_function(datum):
 ## LOAD + PREP DATA
 train_df = pd.read_pickle(PROJ_PATH + "/experiment_dataset/" + TRAIN_SET)  
 test_df = pd.read_pickle(PROJ_PATH + "/experiment_dataset/experiment_test_df.pickle") 
-val_df = pd.read_pickle(PROJ_PATH + "/litMT/experiment_dataset/experiment_val_df.pickle") 
+val_df = pd.read_pickle(PROJ_PATH + "/experiment_dataset/experiment_val_df.pickle") 
 
 sentences = {}
 sentences['train'] = [{'label': row['labels'], 'text':row['concat']} for i, row in train_df.iterrows()]
@@ -203,12 +205,12 @@ plt.legend()
 plt.show() 
 plt.savefig(OUT_PATH + '/true_actual_dist.png')
 
-acc = metrics.accuracy_score(labels, preds)
-run.log({"Test accuracy":acc})
+acc = accuracy_score(labels, preds)
+run.log({"Test accuracy": acc})
 print('Test Accuracy: ', acc)
 
-confusion_matrix = metrics.confusion_matrix(labels, preds, normalize='pred')
-cm_display = metrics.ConfusionMatrixDisplay(confusion_matrix = confusion_matrix, display_labels=label2id)
+confusion_matrix = confusion_matrix(labels, preds, normalize='pred')
+cm_display = ConfusionMatrixDisplay(confusion_matrix = confusion_matrix, display_labels=label2id)
 cm_display.plot()
 plt.show()
 plt.savefig(OUT_PATH + '/confusion_matrix.png')
