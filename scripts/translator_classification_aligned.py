@@ -1,21 +1,26 @@
-import os, torch, datasets, evaluate, pickle
+import os
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+
+import datasets, evaluate, pickle
 import pandas as pd
 import numpy as np
 from transformers import AutoTokenizer, DataCollatorWithPadding, AutoModelForSequenceClassification, Trainer, TrainingArguments
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay, f1_score
-from torch.utils.data import DataLoader
 import wandb
 import warnings
 warnings.filterwarnings('ignore')
 import matplotlib.pyplot as plt
+import torch
+from torch.utils.data import DataLoader
 
 
 ## CONFIGS
 GPU = "1"
 PROJ_PATH = '/home/kkatsy/litMT'
-EXP_NAME = 'aligned_src_tgt'
-TRAIN_SET = 'aligned_train_df.pickle'
+EXP_NAME = 'random_src_tgt'
+TRAIN_SET = 'random_train_df.pickle'
 WANDB_PROJ = 'translator-classification-exp'
 
 SAVE_PATH = PROJ_PATH + '/' + EXP_NAME
@@ -36,7 +41,7 @@ if not os.path.exists(OUT_PATH):
     
 # GPU SETUP
 # os.environ["CUDA_VISIBLE_DEVICES"] = GPU
-device = 'cuda:2' if torch.cuda.is_available() else 'cpu'
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 device = torch.device(device)
 
 
