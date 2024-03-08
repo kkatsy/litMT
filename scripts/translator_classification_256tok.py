@@ -1,6 +1,6 @@
 import os
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 import datasets, evaluate, pickle
 import pandas as pd
@@ -14,31 +14,44 @@ warnings.filterwarnings('ignore')
 import matplotlib.pyplot as plt
 import torch
 from torch.utils.data import DataLoader
+from copy import deepcopy
+from transformers import TrainerCallback
 
 
 ## CONFIGS
-GPU = "1"
+GPU = "0"
 PROJ_PATH = '/home/kkatsy/litMT'
 EXP_NAME = 'random_tgt_256_tok'
 TRAIN_SET = 'random_train_df.pickle'
-WANDB_PROJ = 'translator-classification-exp'
+WANDB_PROJ = 'translator-classification-exp-lr2e5-unfreeze'
 
 SAVE_PATH = PROJ_PATH + '/' + EXP_NAME
-OUT_PATH = PROJ_PATH + '/exp_logs/' + EXP_NAME
+OUT_PATH = PROJ_PATH + '/exp_logs_lr2e5_unfreeze/' + EXP_NAME
 PRETRAINED_PATH = '/home/kkatsy/pretrained'
 
 BERT_MODEL = "bert-base-multilingual-cased"
+FREEZE_BERT = True
+UNFREEZE_LAYER = 21
 FINE_TUNE = True
 LOAD_TUNED = False
 
 lr = 2e-5
-epochs = 20
-batch_size = 8
+epochs = 35
+batch_size = 12
 
 
 if not os.path.exists(OUT_PATH):
     os.makedirs(OUT_PATH)
     
+if not os.path.exists("/home/kkatsy/pretrained/" + EXP_NAME):
+    os.makedirs("/home/kkatsy/pretrained/" + EXP_NAME)  
+    
+if not os.path.exists("/projects/kkatsy/"+ PROJ_PATH):
+    os.makedirs("/projects/kkatsy/"+ PROJ_PATH) 
+    
+if not os.path.exists("/projects/kkatsy/"+ PROJ_PATH + '/' + EXP_NAME):
+    os.makedirs("/projects/kkatsy/"+ PROJ_PATH + '/' + EXP_NAME) 
+
 # GPU SETUP
 # os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -60,6 +73,12 @@ for l, i in zip(label_list, id_list):
 # PREP MODEL + TRAINER ELEMS
 if FINE_TUNE: 
     model = AutoModelForSequenceClassification.from_pretrained("bert-base-multilingual-cased", num_labels = len(label_list))
+    
+    if FREEZE_BERT:
+        print('bert\'s been frozen')
+        for param in model.bert.parameters():
+            param.requires_grad = False
+    
     model.to(device)
 elif LOAD_TUNED:
     model = AutoModelForSequenceClassification.from_pretrained(PRETRAINED_PATH)
@@ -67,9 +86,38 @@ elif LOAD_TUNED:
 
 tokenizer = AutoTokenizer.from_pretrained(BERT_MODEL)
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
-
 accuracy = evaluate.load("accuracy")
 
+class CustomCallback(TrainerCallback):
+    
+    def __init__(self, trainer) -> None:
+        super().__init__()
+        self._trainer = trainer
+    
+    def on_epoch_end(self, args, state, control, **kwargs):
+        if control.should_evaluate:
+            control_copy = deepcopy(control)
+            self._trainer.evaluate(eval_dataset=self._trainer.train_dataset, metric_key_prefix="train")
+            return control_copy
+
+class FreezingCallback(TrainerCallback):
+
+    def __init__(self, unfreezing_epoch: int, trainer: Trainer):
+        self.trainer = trainer
+        self.unfreezing_epoch = unfreezing_epoch
+        self.is_unfrozen = False
+
+    def on_epoch_begin(self, args, state, control, **kwargs):
+        if state.epoch >= self.unfreezing_epoch:
+            if not self.is_unfrozen:
+                self.unfreeze_model(int(state.epoch))
+                self.is_unfrozen = True
+
+    def unfreeze_model(self, epoch: int):
+        print('Unfreezing model at epoch ', epoch)
+        for param in self.trainer.model.bert.parameters():
+            param.requires_grad = True
+            
 def compute_metrics(eval_pred):
     predictions, labels = eval_pred
     predictions = np.argmax(predictions, axis=1)
@@ -116,15 +164,16 @@ os.environ["WANDB_PROJECT"]=WANDB_PROJ
 # TRAIN || LOAD MODEL
 if FINE_TUNE:
     training_args = TrainingArguments(
-        output_dir="/home/kkatsy/pretrained",
+        output_dir= "/projects/kkatsy/"+ PROJ_PATH + '/' + EXP_NAME,
         learning_rate=lr,
         per_device_train_batch_size=batch_size,
         per_device_eval_batch_size=batch_size,
         num_train_epochs=epochs,
         weight_decay=0.01,
+        warmup_steps=5000,
         evaluation_strategy="epoch",
         save_strategy="epoch",
-        load_best_model_at_end=False,
+        load_best_model_at_end=True,
         push_to_hub=False,
         report_to="wandb",
         logging_dir="/home/kkatsy/litMT/logs/",
@@ -142,19 +191,25 @@ if FINE_TUNE:
         compute_metrics=compute_metrics
     )
     
+    trainer.add_callback(CustomCallback(trainer))
+    freezing_callback = FreezingCallback(UNFREEZE_LAYER, trainer)
+    trainer.add_callback(freezing_callback)
+    
     trainer.train()
     trainer.evaluate()
     
     eval_accuracy = []
     eval_loss = []
     train_loss = []
+    train_accuracy = []
     for d in trainer.state.log_history:
         # run.log(d)
         if 'eval_loss' in d.keys():
             eval_loss.append(d['eval_loss'])
             eval_accuracy.append(d['eval_accuracy'])
-        elif 'loss' in d.keys():
-            train_loss.append(d['loss'])
+        elif 'train_accuracy' in d.keys():
+            train_loss.append(d['train_loss'])
+            train_accuracy.append(d['train_accuracy'])
             
     run_results = {'train_loss': train_loss, 'eval_loss':eval_loss, 'eval_accuracy': eval_accuracy}
     run.log(run_results)
