@@ -3,3 +3,5 @@ source_paragraph_dataset.pickle
 wandb/
 logs/
 experiment_dataset/
+scripts/nohup.out
+
