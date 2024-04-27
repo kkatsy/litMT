@@ -8,7 +8,7 @@ from helpers import preprocess_data, fine_tune
 
 
 # data settings
-alignment = 'aligned'       # aligned or random
+alignment = 'random'       # aligned or random
 context_type = 'tgt256'    # tgt256, tgt512, src+tgt
 batch_size = 12
 
@@ -35,7 +35,7 @@ train_args = {'epochs': epochs, 'lr': lr, 'eps': eps, 'wd': wd}
 
 # logging settings
 proj_name = "param_exps_2e-5"
-run_name = "aligned tgt256 2e-5"
+run_name = "random tgt256 2e-5"
 model_save_pth = "/home/kkatsy/pretrained/" + run_name
 
 def main():
