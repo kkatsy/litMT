@@ -40,9 +40,10 @@ model_save_pth = "/home/kkatsy/pretrained/" + run_name
 
 def main():
     train_set, val_set, test_set = preprocess_data(model, train_file, val_file, test_file, context_type, batch_size)
+    print(len(train_set))
     data = {'train' : train_set, 'val' : val_set, 'test' : test_set}
     
-    fine_tune(model, classes, data, train_args, proj_name, run_name, model_save_pth)
+    # fine_tune(model, classes, data, train_args, proj_name, run_name, model_save_pth)
 
 if __name__ == "__main__":
     main()

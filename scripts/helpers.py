@@ -155,6 +155,8 @@ def get_preds(model, the_dataloader):
         total_eval_loss = 0
         total_correct = 0
         total_samples = 0
+        predictions = []
+        labels = []
         
         for batch in tqdm(the_dataloader):
             batch = {k: v.to(device) for k, v in batch.items()}
@@ -188,11 +190,13 @@ def get_preds(model, the_dataloader):
                 num_correct = np.sum(pred_flat == labels_flat)
                 total_correct += num_correct
                 total_samples += batch['labels'].size(0)
+                predictions.extend(list(pred_flat))
+                labels.extend(list(labels_flat))
 
         avg_acc = total_correct / total_samples
         avg_loss = total_eval_loss / len(the_dataloader)
     
-        return avg_acc, avg_loss, pred_flat, labels_flat
+        return avg_acc, avg_loss, predictions, labels
 
 def get_plots(run, classes, labels, preds):
     
@@ -329,7 +333,7 @@ def fine_tune(model, classes, data, train_args, proj_name, run_name, model_save_
     run.log({"test_accuracy": test_acc, 'test_loss': test_loss})
         
     # create plots
-    get_plots(run, classes, list(test_preds), list(test_labels))
+    get_plots(run, classes, test_preds, test_labels)
         
     # save fine-tuned model
     torch.save(model, model_save_pth)
