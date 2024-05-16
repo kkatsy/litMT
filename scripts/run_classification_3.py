@@ -9,33 +9,33 @@ from helpers import preprocess_data, fine_tune
 
 # data settings
 alignment = 'aligned'       # aligned or random
-context_type = 'src+tgt'    # tgt256, tgt512, src+tgt
+context_type = 'tgt256'    # tgt256, tgt512, src+tgt
 batch_size = 12
 
 # dataset dirs
 dir = "/home/kkatsy/litMT/"
 dataset_dir = dir + "experiment_dataset/"
-aligned_train_file = dataset_dir + 'aligned_train_df.pickle'
-random_train_file = dataset_dir + 'random_train_df.pickle'
+aligned_train_file = dataset_dir + '4class_aligned_train_df.pickle'
+random_train_file = dataset_dir + '4class_random_train_df.pickle'
 
 train_file = aligned_train_file if alignment=='aligned' else random_train_file
-val_file = dataset_dir + 'experiment_val_df.pickle'
-test_file = dataset_dir + 'experiment_test_df.pickle'
+val_file = dataset_dir + '4class_experiment_val_df.pickle'
+test_file = dataset_dir + '4class_experiment_test_df.pickle'
 
 # model info
 model = "bert-base-multilingual-cased"
-classes = ["Garnett", "McDuff", "PV", "Katz", "Hogarth"]
+classes = ["Garnett", "McDuff", "PV", "Katz"]
 
 # fine-tune settings
 epochs = 30
 lr = 2e-5
 eps = 1e-8
-wd = 0
+wd = 0.0
 train_args = {'epochs': epochs, 'lr': lr, 'eps': eps, 'wd': wd}
 
 # logging settings
-proj_name = "param_exps_2e-5"
-run_name = "aligned src+tgt 2e-5"
+proj_name = "4 class classification"
+run_name = "aligned tgt256  lr=2e-5 wd=0.0"
 model_save_pth = "/home/kkatsy/pretrained/" + run_name
 
 def main():
