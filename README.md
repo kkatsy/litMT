@@ -6,20 +6,18 @@
     * [x] ocr_pytesseract.py
     * [x] run_alignment.ipynb
     * [x] alignment_eval.ipynb
-    * [ ] generate_dataset.ipynb
-    * [ ] dataset_exp.ipynb
+    * [ ] generate_exp_dataset.ipynb
+    * [ ] exp_dataset_eval.ipynb
     * [ ] fig_lang_id.ipynb
     * [ ] classification notebooks
     * [ ] scripts
     
 - Data polishing:
     * [ ] Consolidate aligned book data
-    * [ ] Fine-tune tesseract on kindle font
     * [ ] Clean up Dostoevsky literary idiom list
     * [ ] Polish modern Russian idiom list
-    * [ ] Put logs into one dir
 
-- ReadMe
+- Github Site
     * [ ] Motivation
     * [ ] Obtaining Parallel Literary Data
     * [ ] Aligning Book Translations with Par3
@@ -29,12 +27,29 @@
     * [ ] Style Transfer
     * [ ] Controllable MT
     * [ ] Code Breakdown + Instructions
-    * [ ] Github site
 
 
 ## Code Breakdown + Instructions
+Dataset Creation + Paragraph Alignment
 1. Kindle Books + Apple Scripts
+*files:*
 2. Tesseract OCR to text
-3. Text Alignment
-4. Running Classification
-5. Running Idioms
+*files:*
+3. Text Alignment via Par3
+*files:*
+4. Semantic Similarity Evaluation
+*files:*
+
+Translation Classification
+1. Experiment Dataset Generation
+*files:*
+2. Tokenization
+*files:*
+3. Running Classification
+*files:*
+
+Figurative Language Analysis
+1. Idiom Datasets
+*files:*
+2. Idiom Exploration
+*files:*
