@@ -6,9 +6,9 @@
     * [x] ocr_pytesseract.py
     * [x] run_alignment.ipynb
     * [x] alignment_eval.ipynb
-    * [ ] generate_exp_dataset.ipynb
-    * [ ] exp_dataset_eval.ipynb
-    * [ ] fig_lang_id.ipynb
+    * [x] generate_exp_dataset.ipynb
+    * [x] exp_dataset_eval.ipynb
+    * [x] fig_lang_id.ipynb
     * [ ] classification notebooks
     * [ ] scripts
     
@@ -30,26 +30,26 @@
 
 
 ## Code Breakdown + Instructions
-Dataset Creation + Paragraph Alignment
-1. Kindle Books + Apple Scripts
-*files:*
-2. Tesseract OCR to text
-*files:*
-3. Text Alignment via Par3
-*files:*
-4. Semantic Similarity Evaluation
-*files:*
+### Dataset Creation + Paragraph Alignment
+1. Kindle Books + Apple Scripts \\
+*file:* kindle_scanner.scpt
+2. OCR'ing Scans to Text \\
+*file:* ocr_pytesseract.py
+3. Text Alignment via Par3 \\
+*file:* run_alignment.ipynb
+4. Semantic Similarity Evaluation \\
+*file:* alignment_eval.ipynb
 
-Translation Classification
-1. Experiment Dataset Generation
-*files:*
-2. Tokenization
-*files:*
-3. Running Classification
-*files:*
+### Translation Classification
+1. Experiment Dataset Generation \\
+*file:* generate_exp_dataset.ipynb
+2. Tokenization \\
+*file:*
+3. Running Classification \\
+*file:*
 
-Figurative Language Analysis
-1. Idiom Datasets
+### Figurative Language Analysis
+1. Idiom Datasets \\
 *files:*
-2. Idiom Exploration
+2. Idiom Exploration \\
 *files:*
