@@ -31,25 +31,24 @@
 
 ## Code Breakdown + Instructions
 ### Dataset Creation + Paragraph Alignment
-1. Kindle Books + Apple Scripts \\
+1. Kindle Books + Apple Scripts //
 *file:* kindle_scanner.scpt
-2. OCR'ing Scans to Text \\
+2. OCR'ing Scans to Text //
 *file:* ocr_pytesseract.py
-3. Text Alignment via Par3 \\
+3. Google Translate Source Text
+4. Text Alignment via Par3 //
 *file:* run_alignment.ipynb
-4. Semantic Similarity Evaluation \\
+5. Semantic Similarity Evaluation //
 *file:* alignment_eval.ipynb
 
 ### Translation Classification
-1. Experiment Dataset Generation \\
+1. Experiment Dataset Generation //
 *file:* generate_exp_dataset.ipynb
-2. Tokenization \\
-*file:*
-3. Running Classification \\
-*file:*
+2. Running Classification //
+*file:* scripts/run_classification.py
 
 ### Figurative Language Analysis
-1. Idiom Datasets \\
-*files:*
-2. Idiom Exploration \\
-*files:*
+1. Idiom Datasets //
+*files:* ru_idioms.txt, dostoevsky_idioms.txt
+2. Idiom Exploration //
+*files:* fig_lang_id.ipynb
