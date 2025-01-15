@@ -90,7 +90,7 @@ We compiled two Russian idiom lists found from sources on the web:
 
 We performed automatic idiom identification on our aligned book dataset: we identified cases of both the English and Russian idioms within our dataset using rudimentary fuzzy matching. Identifying idioms within the source and translation allows us to explore how idioms were used in the source and translated literary works. 
 
-*files:* fig_lang_id.ipynb
+*file:* `fig_lang_id.ipynb`
 
 ## Russian Literary Translation Resources
 
