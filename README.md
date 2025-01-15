@@ -2,7 +2,7 @@
 
 This repo contains the instructions for how to reproduce the literary translation dataset from our paper "An Analysis of Literary Translation Style: Examining English Translations of Russian Classics" (Katsy, Vogler, Berg-Kirkpatrick).
 
-We use the paragraph-level alignment method (par3)[https://github.com/katherinethai/par3] from ()"Exploring Document-Level Literary Machine Translation with Parallel Paragraphs from World Literature" (Thai et al., 2022))[[https://arxiv.org/pdf/2210.14250]] in our work.
+We use the paragraph-level alignment method [par3](https://github.com/katherinethai/par3) from ["Exploring Document-Level Literary Machine Translation with Parallel Paragraphs from World Literature" (Thai et al., 2022)](https://arxiv.org/pdf/2210.14250) in our work.
 
 ## Code Breakdown + Instructions
 ### Dataset Creation + Paragraph Alignment
