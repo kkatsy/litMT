@@ -1,10 +1,8 @@
 # LitMT
 
-This repo contains the instructions for how to reproduce the literary translation dataset from our paper "An Analysis of Literary Translation Style: Examining English Translations of Russian Classics" (Katsy, Vogler, Berg-Kirkpatrick).
+This repo contains the instructions for how to reproduce the literary translation dataset and experiments from our paper "An Analysis of Literary Translation Style: Examining English Translations of Russian Classics" (Katsy, Vogler, Berg-Kirkpatrick), as well as the results of our work.
 
-We use the paragraph-level alignment method [par3](https://github.com/katherinethai/par3) from ["Exploring Document-Level Literary Machine Translation with Parallel Paragraphs from World Literature" (Thai et al., 2022)](https://arxiv.org/pdf/2210.14250) in our work.
-
-- [LitMT](#litmt)
+## Table of Contents
   * [Our Work](#our-work)
     + [Dataset Creation + Paragraph Alignment](#dataset-creation---paragraph-alignment)
       - [Dataset Creation](#dataset-creation)
@@ -22,7 +20,7 @@ We use the paragraph-level alignment method [par3](https://github.com/katherinet
     + [Translation Classification](#translation-classification)
     + [Figurative Language Analysis](#figurative-language-analysis-1)
   * [Russian Literary Translation Resources](#russian-literary-translation-resources)
-  
+
 ## Our Work
 ### Dataset Creation + Paragraph Alignment
 #### Dataset Creation
@@ -31,14 +29,14 @@ We created a new Russian-English translation style dataset, focusing on translat
 We collected translations of 9 classic Russian literary works by 4 different authors and translated by up to 5 translators into English with 2–4 translations per work.
 
 #### Paragraph Alignment
-In order to compare translations to each other and to the source work, text alignments must be obtained. We use the paragraph-level alignment method from Thai et al. (2022). In this method, first the source text is translated into the target language via Google Translate (GT) to obtain sentence-to-sentence alignments and the Needleman–Wunsch algorithm is used to align the target translations to the GT text with semantic similarity scoring (Wieting et al., 2019) as the scoring guideline. Then, the target translation sentences are mapped to the source text via the source-to-GT correspondence, yielding the final paragraph alignments that are recovered by breaking the target-to-source alignments into paragraphs using the paragraph breaks of the original source text.
+In order to compare translations to each other and to the source work, text alignments must be obtained. We use the paragraph-level alignment method [par3](https://github.com/katherinethai/par3) from ["Exploring Document-Level Literary Machine Translation with Parallel Paragraphs from World Literature" (Thai et al., 2022)](https://arxiv.org/pdf/2210.14250). In this method, first the source text is translated into the target language via Google Translate (GT) to obtain sentence-to-sentence alignments and the Needleman–Wunsch algorithm is used to align the target translations to the GT text with semantic similarity scoring (Wieting et al., 2019) as the scoring guideline. Then, the target translation sentences are mapped to the source text via the source-to-GT correspondence, yielding the final paragraph alignments that are recovered by breaking the target-to-source alignments into paragraphs using the paragraph breaks of the original source text.
 
 ### Translator Classification
 #### Fine-Tuning Setup
 We fine-tuned a multilingual BERT model to perform 5-way translator classification. First, we create a holdout set to test classification performance consisting of two source books unseen in the train set covering all translator classes with a 80/10/10 train-val-test split, stratified by the 155 smallest translator class. As a result, we have 3547 paragraphs per class in the train set and 470 paragraphs per class in the holdout set.
 
 #### Filtering Paragraph Alignments
-We examined the performance of filtered and unfiltered paragraph alignments. For the unfiltered setting, we feed randomly sampled paragraphs to our classifier. For the filtered setting, we do the following: We remove aligned paragraphs that contain target translations differing from the source paragraph length by a factor of 3. We calculate the mean semantic similarity score between the aligned source and target paragraphs: alignments with the top 2% and bottom 8% scores are filtered out. Alignments with near-perfect similarity scores are likely identical paragraphs and contain no translator-specific information. Alignments with low similarity scores are likely paragraph misalignments. Then, we sample paragraphs from the filtered alignments by choosing paragraphs with the highest mean semantic similarity scores. We hypothesize that the filtered setting will outperform the unfiltered setting since the classifier is finetuned on higher-quality paragraph alignments. For both settings, we remove paragraphs shorter than 20 characters.
+We examined the performance of filtered and unfiltered paragraph alignments. For the unfiltered setting, we feed randomly sampled paragraphs to our classifier. For the filtered setting, we do the following: 1) remove aligned paragraphs that contain target translations differing from the source paragraph length by a factor of 3 (translations should be roughly same length as source), 2) calculate the mean semantic similarity score between the aligned source and target paragraphs: alignments with the top 2% and bottom 8% scores are filtered out (near-perfect similarity scores are nearly identical paragraphsand low similarity scores are likely paragraph misalignments), and 3) sample paragraphs from the filtered alignments by choosing paragraphs with the highest mean semantic similarity scores. We hypothesize that the filtered setting will outperform the unfiltered setting since the classifier is finetuned on higher-quality paragraph alignments. For both settings, we remove paragraphs shorter than 20 characters.
 
 #### Tokenization of Input Data
 Paragraph data was tokenized with the language independent, subword WordPiece tokenizer (Devlin et al., 2018). To adhere to the max token length limit for multilingual BERT, we truncated paragraphs post-tokenization. Three input options were explored: target paragraphs truncated to 256 tokens, target paragraphs truncated to 512 tokens, and concatenating target paragraphs to their corresponding source paragraph (each truncated to 256 tokens). We hypothesized that this increase performance, as it allows the model to observe interactions between the source and target translation.
