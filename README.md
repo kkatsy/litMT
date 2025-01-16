@@ -28,6 +28,10 @@ We created a new Russian-English translation style dataset, focusing on translat
 
 We collected translations of 9 classic Russian literary works by 4 different authors and translated by up to 5 translators into English with 2–4 translations per work.
 
+![Matrix representation of dataset](assets/confusion_matrix.png)
+
+![Stats of books in dataset](assets/book_data.png)
+
 #### Paragraph Alignment
 In order to compare translations to each other and to the source work, text alignments must be obtained. We use the paragraph-level alignment method [par3](https://github.com/katherinethai/par3) from ["Exploring Document-Level Literary Machine Translation with Parallel Paragraphs from World Literature" (Thai et al., 2022)](https://arxiv.org/pdf/2210.14250). In this method, first the source text is translated into the target language via Google Translate (GT) to obtain sentence-to-sentence alignments and the Needleman–Wunsch algorithm is used to align the target translations to the GT text with semantic similarity scoring (Wieting et al., 2019) as the scoring guideline. Then, the target translation sentences are mapped to the source text via the source-to-GT correspondence, yielding the final paragraph alignments that are recovered by breaking the target-to-source alignments into paragraphs using the paragraph breaks of the original source text.
 
@@ -44,12 +48,22 @@ Paragraph data was tokenized with the language independent, subword WordPiece to
 #### Results
 Overall, the results of our experiments confirm that a fine-tuned LLM can classify literary texts by their translators well-above chance. Since we stratify our experimental datasets by class, the expected random outcome is 20% accuracy per-class. Instead, our experiments deliver per-class accuracies in the 49% to 74% range. This result also supports our precedent for constructing our dense literary dataset: successful translator classification implies that translators produced translations with significantly different and easily observable translation styles.
 
+![Overall test set accuracy on held out books for each translator for the 6 different input/data configurations. Best result in each column bolded.](/assets/results.png)
+
+![Translator classification confusion matrix for our best performing filtered source + translation model configuration.](/assets/confusion_matrix.png)
+
+![Classification run logs](/assets/classification.png)
+
 ### Figurative Language Analysis
 #### Idiom Datasets
 For preliminary idiom analysis within our dataset, we chose to use the MAGPIE dataset to study English target translations. We performed an internet search for obtain Russian idiom data. We were able to find a list of 450 Russian idioms with English translations; a list of 1650 modern Russian idioms; and a list of 650 literary Russian idioms found in Dostoevsky’s novels. We use the modern and literary Russian idioms lists to examine Russian source texts.
 
 #### Idiom Identification via Fuzzy Matching
 We used fuzzy matching with Levenshtein distance for lookup of idioms within our English and Russian idiom lists, discarding matches scores less than 90%. We do this for the English translation and Russian source texts separately. Positive results were obtained for both Russian source texts and English target translations: even with this simple method, we were able to find idiom matches in both languages. For Russian source texts, both modern and literary idioms were found, with more matches for literary over modern idioms.
+
+![English idiom occurence per paragraph for translations.](/assets/idiom_per_par_eng.png)
+
+![Russian idiom occurence per paragraph for source Text](/assets/idiom_per_par_ru.png)
 
 ## Code Breakdown + Instructions
 ### Dataset Creation + Paragraph Alignment
