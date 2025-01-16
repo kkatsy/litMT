@@ -4,6 +4,55 @@ This repo contains the instructions for how to reproduce the literary translatio
 
 We use the paragraph-level alignment method [par3](https://github.com/katherinethai/par3) from ["Exploring Document-Level Literary Machine Translation with Parallel Paragraphs from World Literature" (Thai et al., 2022)](https://arxiv.org/pdf/2210.14250) in our work.
 
+- [LitMT](#litmt)
+  * [Our Work](#our-work)
+    + [Dataset Creation + Paragraph Alignment](#dataset-creation---paragraph-alignment)
+      - [Dataset Creation](#dataset-creation)
+      - [Paragraph Alignment](#paragraph-alignment)
+    + [Translator Classification](#translator-classification)
+      - [Fine-Tuning Setup](#fine-tuning-setup)
+      - [Filtering Paragraph Alignments](#filtering-paragraph-alignments)
+      - [Tokenization of Input Data](#tokenization-of-input-data)
+      - [Results](#results)
+    + [Figurative Language Analysis](#figurative-language-analysis)
+      - [Idiom Datasets](#idiom-datasets)
+      - [Idiom Identification via Fuzzy Matching](#idiom-identification-via-fuzzy-matching)
+  * [Code Breakdown + Instructions](#code-breakdown---instructions)
+    + [Dataset Creation + Paragraph Alignment](#dataset-creation---paragraph-alignment-1)
+    + [Translation Classification](#translation-classification)
+    + [Figurative Language Analysis](#figurative-language-analysis-1)
+  * [Russian Literary Translation Resources](#russian-literary-translation-resources)
+  
+## Our Work
+### Dataset Creation + Paragraph Alignment
+#### Dataset Creation
+We created a new Russian-English translation style dataset, focusing on translator density: creating a dataset with multiple translations per book, where each translator has multiple translations included in the dataset.
+
+We collected translations of 9 classic Russian literary works by 4 different authors and translated by up to 5 translators into English with 2–4 translations per work.
+
+#### Paragraph Alignment
+In order to compare translations to each other and to the source work, text alignments must be obtained. We use the paragraph-level alignment method from Thai et al. (2022). In this method, first the source text is translated into the target language via Google Translate (GT) to obtain sentence-to-sentence alignments and the Needleman–Wunsch algorithm is used to align the target translations to the GT text with semantic similarity scoring (Wieting et al., 2019) as the scoring guideline. Then, the target translation sentences are mapped to the source text via the source-to-GT correspondence, yielding the final paragraph alignments that are recovered by breaking the target-to-source alignments into paragraphs using the paragraph breaks of the original source text.
+
+### Translator Classification
+#### Fine-Tuning Setup
+We fine-tuned a multilingual BERT model to perform 5-way translator classification. First, we create a holdout set to test classification performance consisting of two source books unseen in the train set covering all translator classes with a 80/10/10 train-val-test split, stratified by the 155 smallest translator class. As a result, we have 3547 paragraphs per class in the train set and 470 paragraphs per class in the holdout set.
+
+#### Filtering Paragraph Alignments
+We examined the performance of filtered and unfiltered paragraph alignments. For the unfiltered setting, we feed randomly sampled paragraphs to our classifier. For the filtered setting, we do the following: We remove aligned paragraphs that contain target translations differing from the source paragraph length by a factor of 3. We calculate the mean semantic similarity score between the aligned source and target paragraphs: alignments with the top 2% and bottom 8% scores are filtered out. Alignments with near-perfect similarity scores are likely identical paragraphs and contain no translator-specific information. Alignments with low similarity scores are likely paragraph misalignments. Then, we sample paragraphs from the filtered alignments by choosing paragraphs with the highest mean semantic similarity scores. We hypothesize that the filtered setting will outperform the unfiltered setting since the classifier is finetuned on higher-quality paragraph alignments. For both settings, we remove paragraphs shorter than 20 characters.
+
+#### Tokenization of Input Data
+Paragraph data was tokenized with the language independent, subword WordPiece tokenizer (Devlin et al., 2018). To adhere to the max token length limit for multilingual BERT, we truncated paragraphs post-tokenization. Three input options were explored: target paragraphs truncated to 256 tokens, target paragraphs truncated to 512 tokens, and concatenating target paragraphs to their corresponding source paragraph (each truncated to 256 tokens). We hypothesized that this increase performance, as it allows the model to observe interactions between the source and target translation.
+
+#### Results
+Overall, the results of our experiments confirm that a fine-tuned LLM can classify literary texts by their translators well-above chance. Since we stratify our experimental datasets by class, the expected random outcome is 20% accuracy per-class. Instead, our experiments deliver per-class accuracies in the 49% to 74% range. This result also supports our precedent for constructing our dense literary dataset: successful translator classification implies that translators produced translations with significantly different and easily observable translation styles.
+
+### Figurative Language Analysis
+#### Idiom Datasets
+For preliminary idiom analysis within our dataset, we chose to use the MAGPIE dataset to study English target translations. We performed an internet search for obtain Russian idiom data. We were able to find a list of 450 Russian idioms with English translations; a list of 1650 modern Russian idioms; and a list of 650 literary Russian idioms found in Dostoevsky’s novels. We use the modern and literary Russian idioms lists to examine Russian source texts.
+
+#### Idiom Identification via Fuzzy Matching
+We used fuzzy matching with Levenshtein distance for lookup of idioms within our English and Russian idiom lists, discarding matches scores less than 90%. We do this for the English translation and Russian source texts separately. Positive results were obtained for both Russian source texts and English target translations: even with this simple method, we were able to find idiom matches in both languages. For Russian source texts, both modern and literary idioms were found, with more matches for literary over modern idioms.
+
 ## Code Breakdown + Instructions
 ### Dataset Creation + Paragraph Alignment
 1. Obtaining Digital Books
