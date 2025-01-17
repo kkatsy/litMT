@@ -61,10 +61,10 @@ Overall, the results of our experiments confirm that a fine-tuned LLM can classi
 
 <div align="center">
   <a href="https://github.com/kkatsy">
-    <img src="/assets/confusion_matrix.png" height=150/> 
+    <img src="/assets/confusion_matrix.png" height=250/> 
   </a>
   <a href="https://github.com/kkatsy">
-    <img src="/assets/results.png" height=250/>
+    <img src="/assets/results.png" height=150/>
   </a>
 </div>
 
