@@ -33,7 +33,7 @@ We collected translations of 9 classic Russian literary works by 4 different aut
     <img src="/assets/dataset_matrix.png" height=350/> 
   </a>
   <a href="https://github.com/kkatsy">
-    <img src="/assets/book_data.png" height=250/>
+    <img src="/assets/book_data.png" height=230/>
   </a>
 </div>
 
@@ -61,10 +61,10 @@ Overall, the results of our experiments confirm that a fine-tuned LLM can classi
 
 <div align="center">
   <a href="https://github.com/kkatsy">
-    <img src="/assets/results.png" height=150/> 
+    <img src="/assets/confusion_matrix.png" height=150/> 
   </a>
   <a href="https://github.com/kkatsy">
-    <img src="/assets/confusion_matrix.png" height=250/>
+    <img src="/assets/results.png" height=250/>
   </a>
 </div>
 
@@ -88,7 +88,7 @@ We used fuzzy matching with Levenshtein distance for lookup of idioms within our
 <!-- ![English idiom occurence per paragraph for translations.](/assets/idiom_per_par_eng.png) -->
 
 <!-- <img src="/assets/idiom_per_par_ru.png" height=250>
-![Russian idiom occurence per paragraph for source Text](/assets/idiom_per_par_ru.png) --> -->
+![Russian idiom occurence per paragraph for source Text](/assets/idiom_per_par_ru.png) -->
 
 <div align="center">
   <a href="https://github.com/kkatsy">
