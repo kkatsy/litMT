@@ -28,10 +28,19 @@ We created a new Russian-English translation style dataset, focusing on translat
 
 We collected translations of 9 classic Russian literary works by 4 different authors and translated by up to 5 translators into English with 2–4 translations per work.
 
-<img src="assets/dataset_matrix.png" height=250>
+<div align="center">
+  <a href="https://github.com/kkatsy">
+    <img src="/assets/dataset_matrix.png" height=250/> 
+  </a>
+  <a href="https://github.com/kkatsy">
+    <img src="/assets/book_data.png" height=250/>
+  </a>
+</div>
+
+<!-- <img src="assets/dataset_matrix.png" height=250> -->
 <!-- ![Matrix representation of dataset](assets/dataset_matrix.png) -->
 
-<img src="assets/book_data.png" height=250>
+<!-- <img src="assets/book_data.png" height=250> -->
 <!-- ![Stats of books in dataset](assets/book_data.png) -->
 
 #### Paragraph Alignment
@@ -50,10 +59,19 @@ Paragraph data was tokenized with the language independent, subword WordPiece to
 #### Results
 Overall, the results of our experiments confirm that a fine-tuned LLM can classify literary texts by their translators well-above chance. Since we stratify our experimental datasets by class, the expected random outcome is 20% accuracy per-class. Instead, our experiments deliver per-class accuracies in the 49% to 74% range. This result also supports our precedent for constructing our dense literary dataset: successful translator classification implies that translators produced translations with significantly different and easily observable translation styles.
 
-<img src="assets/dataset_matrix.png" height=250>
+<div align="center">
+  <a href="https://github.com/kkatsy">
+    <img src="/assets/results.png" height=250/> 
+  </a>
+  <a href="https://github.com/kkatsy">
+    <img src="/assets/confusion_matrix.png" height=250/>
+  </a>
+</div>
+
+<!-- <img src="assets/dataset_matrix.png" height=250> -->
 <!-- ![Overall test set accuracy on held out books for each translator for the 6 different input/data configurations. Best result in each column bolded.](/assets/results.png) -->
 
-<img src="/assets/confusion_matrix.png" height=250>
+<!-- <img src="/assets/confusion_matrix.png" height=250> -->
 <!-- ![Translator classification confusion matrix for our best performing filtered source + translation model configuration.](/assets/confusion_matrix.png) -->
 
 <img src="/assets/classification.png" height=250>
@@ -66,11 +84,20 @@ For preliminary idiom analysis within our dataset, we chose to use the MAGPIE da
 #### Idiom Identification via Fuzzy Matching
 We used fuzzy matching with Levenshtein distance for lookup of idioms within our English and Russian idiom lists, discarding matches scores less than 90%. We do this for the English translation and Russian source texts separately. Positive results were obtained for both Russian source texts and English target translations: even with this simple method, we were able to find idiom matches in both languages. For Russian source texts, both modern and literary idioms were found, with more matches for literary over modern idioms.
 
-<img src="/assets/idiom_per_par_eng.png" height=250>
+<!-- <img src="/assets/idiom_per_par_eng.png" height=250>
 <!-- ![English idiom occurence per paragraph for translations.](/assets/idiom_per_par_eng.png) -->
 
-<img src="/assets/idiom_per_par_ru.png" height=250>
-<!-- ![Russian idiom occurence per paragraph for source Text](/assets/idiom_per_par_ru.png) -->
+<!-- <img src="/assets/idiom_per_par_ru.png" height=250>
+![Russian idiom occurence per paragraph for source Text](/assets/idiom_per_par_ru.png) --> -->
+
+<div align="center">
+  <a href="https://github.com/kkatsy">
+    <img src="/assets/idiom_per_par_eng.png" height=250/> 
+  </a>
+  <a href="https://github.com/kkatsy">
+    <img src="/assets/idiom_per_par_ru.png" height=250/>
+  </a>
+</div>
 
 ## Code Breakdown + Instructions
 ### Dataset Creation + Paragraph Alignment
