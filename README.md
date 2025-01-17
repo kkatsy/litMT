@@ -30,7 +30,7 @@ We collected translations of 9 classic Russian literary works by 4 different aut
 
 <div align="center">
   <a href="https://github.com/kkatsy">
-    <img src="/assets/dataset_matrix.png" height=250/> 
+    <img src="/assets/dataset_matrix.png" height=350/> 
   </a>
   <a href="https://github.com/kkatsy">
     <img src="/assets/book_data.png" height=250/>
@@ -61,7 +61,7 @@ Overall, the results of our experiments confirm that a fine-tuned LLM can classi
 
 <div align="center">
   <a href="https://github.com/kkatsy">
-    <img src="/assets/results.png" height=250/> 
+    <img src="/assets/results.png" height=150/> 
   </a>
   <a href="https://github.com/kkatsy">
     <img src="/assets/confusion_matrix.png" height=250/>
